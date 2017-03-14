@@ -1,60 +1,48 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <h1></h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank">Forum</a></li>
-      <li><a href="https://gitter.im/vuejs/vue" target="_blank">Gitter Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank">Twitter</a></li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li><a href="http://router.vuejs.org/" target="_blank">vue-router</a></li>
-      <li><a href="http://vuex.vuejs.org/" target="_blank">vuex</a></li>
-      <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
-    </ul>
-  </div>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+			<h1>Vuex</h1>
+			<app-result></app-result>
+      <app-another-result></app-another-result>
+			<hr>
+			<app-counter></app-counter>
+			<app-another-counter></app-another-counter>
+			<hr>
+			<input type="text" v-model="value">
+			<p>{{ value }}</p>
+		</div>
+	</div>
+</div>
 </template>
 
 <script>
+import Counter from './components/Counter.vue';
+import Result from './components/Result.vue';
+import AnotherResult from './components/AnotherResult.vue';
+import AnotherCounter from './components/AnotherCounter.vue';
+
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
+	computed: {
+		value: {
+			get () {
+				return this.$store.state.value;
+			},
+			set(value) { // rarely use this, only when want to set value
+				this.$store.dispatch('updateValue', value);
+			}
+		}
+	},
+	methods: {
+		updateValue(event) {
+			this.$store.dispatch('updateValue', event.target.value);
+		}
+	},
+	components: {
+		appCounter: Counter,
+		appResult: Result,
+    appAnotherResult: AnotherResult,
+    appAnotherCounter: AnotherCounter
+	}
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
-</style>
